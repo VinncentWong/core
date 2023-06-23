@@ -845,6 +845,7 @@ $(async () => {
     if(App.endMarker){
       App.endMarker.setMap(null);
     }
+    App.currentIndex = 0;
     clearInput();
   });
 
