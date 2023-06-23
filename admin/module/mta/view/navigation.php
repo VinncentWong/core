@@ -1,9 +1,27 @@
-<div id="mta-nav" class="p-3 border-top">
-  <button class="btn btn-primary btn-dijkstra">Process</button>
+<div class="mx-3 my-3">
+  <form>
+    <div class="mb-3">
+      <label for="location1" class="form-label">Location 1</label>
+      <div id="input0-container" class="position-relative">
+        <input type="text" class="form-control" id="input0">
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="location2" class="form-label">Location 2</label>
+      <div id="input1-container" class="position-relative">
+        <input type="text" class="form-control" id="input1">
+      </div>
+    </div>
+  </form>
 </div>
 <div id="map" class="flex-fill"></div>
-<div id="mta-controls" class="p-3 border-top">
-  <button id="btn-clear-map" class="btn btn-primary">Clear</button>
+<div style="display: flex;">
+  <div id="mta-nav" class="p-3 border-top">
+    <button class="btn btn-primary btn-dijkstra">Process</button>
+  </div>
+  <div id="mta-controls" class="p-3 border-top">
+    <button id="btn-clear-map" class="btn btn-primary">Clear</button>
+  </div>
 </div>
 <div id="mta-navigation" class="card shadow" style="width: 500px; display:none;">
   <div class="card-header app-card-header"></div>

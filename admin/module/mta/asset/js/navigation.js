@@ -17,6 +17,7 @@ class App {
 	static stopIcon;
   static startMarker = null;
   static endMarker = null;
+  static currentIndex = 0;
 
   static async initMap() {
 
@@ -41,22 +42,51 @@ class App {
     });
     App.map.addListener('click', e => {
       $('#mta-poly-context').hide();
-      if (App.startMarker == null) {
+      if(this.currentIndex == 2){
+        this.currentIndex = 0;
+        this.highResStepPolylines.forEach((h) => {
+          h.setMap(null);
+        });
+        this.polylines.forEach((v) => {
+          v.setMap(null)
+        });
+        this.markers.forEach((v) => {
+          v.setMap(null);
+        });
+        this.networkPolylines.forEach((v) => {
+          v.setMap(null);
+        });
+        this.stepPolylines.forEach((v) => {
+          v.setMap(null);
+        });
+      }
+      switch(this.currentIndex){
+        case 0:
+          if(this.startMarker){
+            this.startMarker.setMap(null);
+          }
+          break;
+        case 1:
+          if(this.endMarker){
+            this.endMarker.setMap(null);
+          }
+          break;
+      }
+      if(this.currentIndex == 0){
         App.startMarker = new google.maps.Marker({
           map: App.map,
           position: e.latLng,
           draggable: true
         });
-        return;
-      }
-      if (App.endMarker == null) {
+      } else if(this.currentIndex == 1){
         App.endMarker = new google.maps.Marker({
           map: App.map,
           position: e.latLng,
           draggable: true
         });
-        return;
       }
+      $(`#input${App.currentIndex}`).val(`${e.latLng.lat()}, ${e.latLng.lng()}`);
+      this.currentIndex++;
     });
 
     var infoWindow = new google.maps.InfoWindow;
@@ -750,7 +780,7 @@ $(async () => {
   App.getLines();
 
   $('#mta-nav .btn-dijkstra').on('click', e => {
-
+    clearInput();
     if (App.startMarker == null || App.endMarker == null) {
       (new CoreInfo('Please select start and stop location, by putting markers on a map.')).show();
       return;
@@ -808,6 +838,19 @@ $(async () => {
     App.markers.forEach(marker => marker.setMap(null));
     App.markers.clear();
     App.polylines.clear();
+    App.highResStepPolylines.forEach((h) => h.setMap(null));
+    if(App.startMarker){
+      App.startMarker.setMap(null);
+    }
+    if(App.endMarker){
+      App.endMarker.setMap(null);
+    }
+    clearInput();
   });
+
+  const clearInput = () => {
+    $("#input0").val("");
+    $("#input1").val("");
+  };
 
 });
